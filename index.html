@@ -102,6 +102,7 @@
         <button onclick="showPage('page7')">Minecraft</button>
         <button onclick="showPage('page8')">DOOM</button>
         <button onclick="showPage('page10')">slither.io</button>
+        <button onclick="showPage('page11')">Geometry Dash</button>
 
         <div class="search-container">
             <input type="text" id="searchInput" placeholder="Enter URL...">
@@ -166,6 +167,11 @@
             <iframe id="page10Iframe" src="https://gulper.io/" sandbox="allow-scripts allow-same-origin"></iframe>
         </div>
 
+        <div id="page11" class="hidden">
+            <h2>Geometry Dash</h2>
+            <button onclick="enableFullscreen('page11Iframe')">Fullscreen</button>
+            <iframe id="page11Iframe" src="https://r8r7.github.io/jonathanrivera/games/geometrydash/" sandbox="allow-scripts allow-same-origin"></iframe>
+        </div>
         <div id="customPage" class="hidden">
             <h2>Search results; If returned with blank grey screen or error, the website has protection from being embedded into i-frames. working on a fix for that soon</h2>
             <button class="fullscreen-button" onclick="enableFullscreen('customIframe')">Fullscreen</button>
