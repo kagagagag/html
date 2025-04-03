@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 150px;
+            background: #333;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        .sidebar button {
+            margin-bottom: 10px;
+            padding: 6px 10px;
+            background: #555;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .custom-form textarea {
+            width: 100%;            /* Make the textarea take full width */
+            height: 200px;          /* Increase the height to make it bigger */
+            font-size: 16px;        /* Increase the font size */
+            padding: 10px;          /* Add padding for better appearance */
+            border: 1px solid #ccc; /* Add a border for visibility */
+            border-radius: 5px;     /* Optional, to round the corners */
+            resize: vertical;       /* Allow resizing vertically if desired */
+        }
+
+        .sidebar button:hover {
+            background: #777;
+        }
+
+        .search-container {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .search-container input {
+            width: 90%;
+            padding: 6px;
+        }
+
+        .search-container button {
+            width: 60%; /* Make buttons full width */
+            padding: 5px; /* Increase padding for better appearance */
+            font-size: 15px; /* Increase font size */
+            margin-top: 3px; /* Add spacing between buttons */
+            background: #008CBA;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .search-container button:hover {
+            background: #005f73;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="button-group">
+            <button onclick="showPage('page1')">AI</button>
+            <button onclick="showPage('page2')">Gauth</button>
+        </div>
+        <button onclick="showPage('page3')">Movies</button>
+        <button onclick="showPage('page3-1')">Anime</button>
+        <button onclick="showPage('page5')">PacMan</button>
+        <button onclick="showPage('page6')">BannanaBread</button>
+        <button onclick="showPage('page7')">Minecraft</button>
+        <button onclick="showPage('page8')">DOOM</button>
+        <button onclick="showPage('page10')">slither.io</button>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Enter URL...">
+            <button onclick="loadCustomPage()">Search</button>
+            <button onclick="showFeedbackPage()">Feedback</button>
+            <button onclick="showUpdatesPage()">Updates</button>
+        </div>
+    </div>
+
+    <div class="content">
+        <div id="page1" class="hidden">
+            <h2>AI</h2>
+            <button onclick="enableFullscreen('page1Iframe')">Fullscreen</button>
+            <iframe id="page1Iframe" src="https://flatai.org/free-ai-chatbot-no-registration/" sandbox="allow-scripts allow-same-origin"></iframe>
+        </div>
+
+        <div id="page2" class="hidden">
+            <h2>Gauth</h2>
+            <button onclick="enableFullscreen('page2Iframe')">Fullscreen</button>
+            <iframe id="page2Iframe" src="https://www.gauthmath.com/" sandbox="allow-scripts allow-same-origin"></iframe>
+        </div>
+
+        <div id="page3" class="hidden">
+            <h2>Free movies</h2>
+            <button onclick="enableFullscreen('page3Iframe')">Fullscreen</button>
+            <iframe id="page3Iframe" src="https://donkey.to" sandbox="allow-scripts allow-same-origin"></iframe>
+        </div>
+
+        <div id="page3-1" class="hidden">
+            <h2>Anime</h2>
+            <button onclick="enableFullscreen('page3-1Iframe')">Fullscreen</button>
+            <iframe id="page3-1Iframe" src="https://kaa.mx/" sandbox="allow-scripts allow-same-origin"></iframe>
+        </div>
+
+        <div id="page5" class="hidden">
+            <h2>Pac-Man</h2>
+            <button onclick="enableFullscreen('page5Iframe')">Fullscreen</button>
+            <iframe id="page5Iframe" src="https://pacman.live/play.html" sandbox="allow-scripts allow-same-origin"></iframe>
+        </div>
+
+        <div id="page6" class="hidden">
+            <h2>BannanaBread (press right fullscreen button to enable controls)</h2>
+            <button onclick="enableFullscreen('page6Iframe')">Fullscreen</button>
+            <iframe id="page6Iframe" src="https://kripken.github.io/BananaBread/cube2/bb.html" sandbox="allow-scripts allow-same-origin"></iframe>
+        </div>
+
+        <div id="page7" class="hidden">
+            <h2>Cracked Minecraft (Be Patient, it takes a while to load)</h2>
+            <button onclick="enableControlsAndFullscreen('page7Iframe')">Enable Controls & Fullscreen</button>
+            <iframe id="page7Iframe" src="https://eaglercraft.com/mc/1.8.8/" allowfullscreen sandbox="allow-scripts allow-same-origin"></iframe>
+        </div>
+
+        <div id="page8" class="hidden">
+            <h2>DOOM</h2>
+            <button onclick="enableFullscreen('page8Iframe')">Fullscreen</button>
+            <iframe id="page8Iframe" src="https://diekmann.github.io/wasm-fizzbuzz/doom/" sandbox="allow-scripts allow-same-origin"></iframe>
+        </div>
+
+        <div id="page10" class="hidden">
+            <h2>Slitherio</h2>
+            <button onclick="enableFullscreen('page10Iframe')">Fullscreen</button>
+            <iframe id="page10Iframe" src="http://slither.com/io" sandbox="allow-scripts allow-same-origin"></iframe>
+        </div>
+
+        <div id="customPage" class="hidden">
+            <h2>Search results; If returned with blank grey screen or error, the website has protection from being embedded into i-frames. working on a fix for that soon</h2>
+            <button class="fullscreen-button" onclick="enableFullscreen('customIframe')">Fullscreen</button>
+            <iframe id="customIframe" src="" style="width:100%; height:500px;" sandbox="allow-scripts allow-same-origin"></iframe>
+        </div>
+
+        <div id="feedbackPage" class="hidden">
+            <h2>Send Suggestions</h2>
+            <div class="custom-form">
+                <textarea id="feedbackText" placeholder="Enter Feedback/Suggestions Here. (will be sent to developer)"></textarea>
+                <button onclick="sendFeedback()">Send</button>
+            </div>
+        </div>
+
+        <div id="updatesPage" class="hidden">
+            <h2>Updates</h2>
+            <div class="update-content">
+                <h3>Better movie website. This should now be blocking any websites from redirecting you, Feedback page works(hopefully), all messages sent to developer. URL loading search bar works, but beware, many websites block themselves from being embedded into iframes, Currently working on a fix (using a proxy) which will enable the loading of any website.</h3>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            var pages = document.querySelectorAll('.content > div');
+            
+            // Hide all pages first
+            pages.forEach(page => page.classList.add('hidden'));
+
+            // Show the selected page
+            var selectedPage = document.getElementById(pageId);
+            if (selectedPage) {
+                selectedPage.classList.remove('hidden');
+            }
+        }
+
+        function showFeedbackPage() {
+            showPage('feedbackPage');
+        }
+
+        function showUpdatesPage() {
+            showPage('updatesPage');
+        }
+
+        function enableFullscreen(iframeId) {
+            var iframe = document.getElementById(iframeId);
+            if (iframe) {
+                if (iframe.requestFullscreen) {
+                    iframe.requestFullscreen();
+                } else if (iframe.mozRequestFullScreen) {
+                    iframe.mozRequestFullScreen();
+                } else if (iframe.webkitRequestFullscreen) {
+                    iframe.webkitRequestFullscreen();
+                } else if (iframe.msRequestFullscreen) {
+                    iframe.msRequestFullscreen();
+                }
+            }
+        }
+
+        function enableControlsAndFullscreen(iframeId) {
+            var iframe = document.getElementById(iframeId);
+
+            if (iframe) {
+                // Trigger fullscreen API
+                if (iframe.requestFullscreen) {
+                    iframe.requestFullscreen();
+                } else if (iframe.mozRequestFullScreen) {
+                    iframe.mozRequestFullScreen();
+                } else if (iframe.webkitRequestFullscreen) {
+                    iframe.webkitRequestFullscreen();
+                } else if (iframe.msRequestFullscreen) {
+                    iframe.msRequestFullscreen();
+                }
+
+                // Focus the iframe to capture keyboard input
+                iframe.focus();
+
+                // Enable mouse events within the iframe
+                iframe.contentWindow.focus();
+
+                // Try to request pointer lock for games that need it (such as Minecraft)
+                if (iframe.contentWindow.document.body.requestPointerLock) {
+                    iframe.contentWindow.document.body.requestPointerLock();
+                }
+            }
+        }
+
+        function loadCustomPage() {
+            var url = document.getElementById("searchInput").value;
+
+            if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                url = "https://" + url;
+            }
+
+            document.getElementById("customIframe").src = url;
+            showPage("customPage");
+        }
+
+        function blockRedirects(iframeId) {
+            var iframe = document.getElementById(iframeId);
+
+            var initialSrc = iframe.src;
+
+            setInterval(function() {
+                if (iframe.src !== initialSrc) {
+                    alert('Redirect blocked!');
+                    iframe.src = initialSrc;
+                }
+            }, 1000);
+        }
+
+        // Monitor all the iframes for redirects
+        blockRedirects('page1Iframe');
+        blockRedirects('page2Iframe');
+        blockRedirects('page3Iframe');
+        blockRedirects('page5Iframe');
+        blockRedirects('page6Iframe');
+        blockRedirects('page7Iframe');
+        blockRedirects('page8Iframe');
+
+        function sendFeedback() {
+            var feedback = document.getElementById("feedbackText").value.trim();
+            if (!feedback) {
+                return;
+            }
+            // Replace the URL below with your actual Discord webhook URL.
+            var webhookUrl = "https://discord.com/api/webhooks/1355757858657931456/gkX9GMV7evKpVAJtIiwQWf4TmeI9MhojtHBhbe-htdtbIVtqnqLN22wNI-EcJZNhmL4L";
+            fetch(webhookUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    content: feedback
+                })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        document.getElementById("feedbackText").value = "";
+                    }
+                })
+                .catch(error => {
+                    console.error("Error sending feedback:", error);
+                });
+        }
+    </script>
+</body>
+</html>
