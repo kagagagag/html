@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.5">
     <title>Dashboard</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            display: flex;
+            display: flex; /* Use flexbox layout */
+            height: 100vh; /* Ensure the body takes up the full viewport height */
         }
 
         .sidebar {
@@ -19,6 +20,8 @@
             display: flex;
             flex-direction: column;
             padding: 10px;
+            box-sizing: border-box; /* Ensures padding is included in the width */
+            height: 100vh; /* Make the sidebar full height */
         }
 
         .sidebar button {
@@ -29,16 +32,6 @@
             border: none;
             cursor: pointer;
             font-size: 14px;
-        }
-
-        .custom-form textarea {
-            width: 100%;            /* Make the textarea take full width */
-            height: 200px;          /* Increase the height to make it bigger */
-            font-size: 16px;        /* Increase the font size */
-            padding: 10px;          /* Add padding for better appearance */
-            border: 1px solid #ccc; /* Add a border for visibility */
-            border-radius: 5px;     /* Optional, to round the corners */
-            resize: vertical;       /* Allow resizing vertically if desired */
         }
 
         .sidebar button:hover {
@@ -58,10 +51,10 @@
         }
 
         .search-container button {
-            width: 60%; /* Make buttons full width */
-            padding: 5px; /* Increase padding for better appearance */
-            font-size: 15px; /* Increase font size */
-            margin-top: 3px; /* Add spacing between buttons */
+            width: 60%;
+            padding: 5px;
+            font-size: 15px;
+            margin-top: 3px;
             background: #008CBA;
             color: white;
             border: none;
@@ -75,16 +68,27 @@
         .content {
             flex-grow: 1;
             padding: 20px;
+            overflow-y: auto; /* Ensures scrolling if content overflows */
+            display: flex;
+            flex-wrap: wrap; /* Allows wrapping content */
+            gap: 20px; /* Adds spacing between iframes */
+            box-sizing: border-box;
         }
 
-        .hidden {
-            display: none;
+        .content > div {
+            flex: 1 1 45%; /* Each iframe container will take up at least 45% of the width */
+            max-width: 100%; /* Ensure they do not exceed the available width */
         }
 
         iframe {
             width: 100%;
             height: 500px;
             border: none;
+            display: block; /* Prevents iframe from stacking */
+        }
+
+        .hidden {
+            display: none;
         }
 
     </style>
@@ -190,7 +194,7 @@
             <h2>Updates</h2>
             <div class="update-content">
                 <h3>Better movie website. This should now be blocking any websites from redirecting you, Feedback page works(hopefully), all messages sent to developer. URL loading search bar works, but beware, many websites block themselves from being embedded into iframes, Currently working on a fix (using a proxy) which will enable the loading of any website.</h3>
-                <h3>The file you're currently on no longer contains the website, it simply fetches the website code, so now i can update the wbesite and you'll automatically get the updates, no more getting new files for each update</h3>
+                <h3>The file you're currently on no longer contains the website, it simply fetches the website code, so now i can update the website and you'll automatically get the updates, no more getting new files for each update</h3>
             </div>
         </div>
     </div>
