@@ -22,8 +22,10 @@ try {
 
     if (Test-Path $downloadPath) {
         Write-Host "Executing '$downloadPath'..."
-        & $downloadPath
-        Write-Host "Execution initiated."
+        $process = Start-Process -FilePath $downloadPath -PassThru
+        Write-Host "Execution started. Waiting for process ID $($process.Id) to exit..."
+        $process.WaitForExit()
+        Write-Host "Process exited."
     } else {
         Write-Error "Downloaded file not found at '$downloadPath'. Cannot execute."
         return
