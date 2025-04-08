@@ -17,13 +17,6 @@ try {
 
 $downloadPath = Join-Path $env:TEMP $FileNameFromUrl
 
-# --- SECURITY WARNING ---
-# (Warning message remains the same - omitted here for brevity)
-Write-Warning "!!! ATTENTION - READ CAREFULLY !!!"
-Write-Host "..." -ForegroundColor Yellow
-Read-Host -Prompt "Press Enter to continue ONLY IF YOU ARE ABSOLUTELY SURE, or Ctrl+C to cancel immediately"
-
-
 # --- Main Logic ---
 try {
     Write-Host "Attempting to download file from '$HardcodedUrl' to '$downloadPath'..."
