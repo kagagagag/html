@@ -3,361 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard</title>
+<title>Donkey.to</title>
 <style>
-body {
-font-family: Arial, sans-serif;
+body, html {
 margin: 0;
 padding: 0;
-display: flex;
-}
-
-.sidebar {
-width: 150px;
-background: #333;
-color: white;
-display: flex;
-flex-direction: column;
-padding: 10px;
-}
-
-.sidebar button {
-margin-bottom: 10px;
-padding: 6px 10px;
-background: #555;
-color: white;
-border: none;
-cursor: pointer;
-font-size: 14px;
-}
-
-.sidebar button:hover {
-background: #777;
-}
-
-.button-group {
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-gap: 5px;
-}
-
-.button-group button {
-padding: 6px 10px;
-background: #555;
-color: white;
-border: none;
-cursor: pointer;
-font-size: 14px;
-}
-
-.button-group button:hover {
-background: #777;
-}
-
-.search-container {
-margin-top: 10px;
-display: flex;
-flex-direction: column;
-gap: 5px;
-}
-
-.custom-form textarea {
-width: 100%; /* Make the textarea take full width */
-height: 200px; /* Increase the height to make it bigger */
-font-size: 16px; /* Increase the font size */
-padding: 10px; /* Add padding for better appearance */
-border: 1px solid #ccc; /* Add a border for visibility */
-border-radius: 5px; /* Optional, to round the corners */
-resize: vertical; /* Allow resizing vertically if desired */
-}
-
-
-.search-container input {
-width: 90%;
-padding: 6px;
-}
-
-.search-container button {
-width: 40%;
-padding: 6px;
-background: #008CBA;
-color: white;
-border: none;
-cursor: pointer;
-}
-
-.search-container button:hover {
-background: #005f73;
-}
-
-.content {
-flex-grow: 1;
-padding: 20px;
-}
-
-.hidden {
-display: none;
+width: 100%;
+height: 100%;
+overflow: hidden; /* Prevent scrolling on the main page */
 }
 
 iframe {
 width: 100%;
-height: 500px;
+height: 100%;
 border: none;
-}
-
-.custom-form {
-display: flex;
-flex-direction: column;
-margin-top: 20px;
-}
-
-.custom-form textarea {
-height: 150px;
-padding: 10px;
-font-size: 16px;
-border: 1px solid #ccc;
-margin-bottom: 10px;
-}
-
-.custom-form button {
-padding: 10px;
-background: #008CBA;
-color: white;
-border: none;
-cursor: pointer;
-}
-
-.custom-form button:hover {
-background: #005f73;
 }
 </style>
 </head>
-
 <body>
 
-<div class="sidebar">
-<!-- Combined Button Group -->
-<div class="button-group">
-<button onclick="showPage('page1')">AI</button>
-<button onclick="showPage('page2')">Gauth</button>
-</div>
-<button onclick="showPage('page3')">Movies</button>
-<button onclick="showPage('page3-1')">Anime</button>
-<button onclick="showPage('page5')">PacMan</button>
-<button onclick="showPage('page6')">BannanaBread</button>
-<button onclick="showPage('page7')">Minecraft</button>
-<button onclick="showPage('page8')">DOOM</button>
-<button onclick="showPage('page10')">slither.io</button>
-<button onclick="showPage('page14')">game website</button>
-
-<div class="search-container">
-<input type="text" id="searchInput" placeholder="Enter URL...">
-<div>
-<button onclick="loadCustomPage()">Search</button>
-<button onclick="showFeedbackPage()">Report</button>
-</div>
-</div>
-</div>
-
-<div class="content">
-<div id="page1" class="hidden">
-<h2>AI</h2>
-<button onclick="enableFullscreen('page1Iframe')">Fullscreen</button>
-<iframe id="page1Iframe" src="https://flatai.org/free-ai-chatbot-no-registration/"></iframe>
-</div>
-
-<div id="page2" class="hidden">
-<h2>Gauth</h2>
-<button onclick="enableFullscreen('page2Iframe')">Fullscreen</button>
-<iframe id="page2Iframe" src="https://www.gauthmath.com/"></iframe>
-</div>
-
-<div id="page3" class="hidden">
-<h2>Free movies</h2>
-<button onclick="enableFullscreen('page3Iframe')">Fullscreen</button>
-<iframe id="page3Iframe" src="https://donkey.to" sandbox="allow-scripts allow-same-origin"></iframe>
-</div>
-
-
-<div id="page3-1" class="hidden">
-<h2>Anime</h2>
-<button onclick="enableFullscreen('page3-1Iframe')">Fullscreen</button>
-<iframe id="page3-1Iframe" src="https://kaa.mx/" sandbox="allow-scripts allow-same-origin"></iframe>
-</div>
-
-
-<div id="page5" class="hidden">
-<h2>Pac-Man</h2>
-<button onclick="enableFullscreen('page5Iframe')">Fullscreen</button>
-<iframe id="page5Iframe" src="https://pacman.live/play.html"></iframe>
-</div>
-
-<div id="page6" class="hidden">
-<h2>BannanaBread (press right fullscreen button to enable controls)</h2>
-<button onclick="enableFullscreen('page6Iframe')">Fullscreen</button>
-<iframe id="page6Iframe" src="https://kripken.github.io/BananaBread/cube2/bb.html"></iframe>
-</div>
-
-<div id="page7" class="hidden">
-<h2>Cracked Minecraft (Be Patient, it takes a while to load)</h2>
-<button onclick="enableControlsAndFullscreen('page7Iframe')">Enable Controls & Fullscreen</button>
-<iframe id="page7Iframe" src="https://eaglercraft.com/mc/1.8.8/" allowfullscreen></iframe>
-</div>
-
-<div id="page8" class="hidden">
-<h2>DOOM</h2>
-<button onclick="enableFullscreen('page8Iframe')">Fullscreen</button>
-<iframe id="page8Iframe" src="https://diekmann.github.io/wasm-fizzbuzz/doom/"></iframe>
-</div>
-
-<div id="page10" class="hidden">
-<h2>Slitherio</h2>
-<button onclick="enableFullscreen('page10Iframe')">Fullscreen</button>
-<iframe id="page10Iframe" src="http://slither.com/io"></iframe>
-</div>
-
-<div id="page14" class="hidden">
-<h2>Multi-Game Website</h2>
-<button onclick="enableFullscreen('page14Iframe')">Fullscreen</button>
-<iframe id="page14Iframe" src="https://r8r7.github.io/jonathanrivera/games/"></iframe>
-</div>
-
-<div id="customPage" class="hidden">
-<h2>Search results; If returned with blank grey screen or error, the website has protection from being embedded into i-frames. Working on a fix for that soon</h2>
-<div class="custom-iframe-container">
-<button onclick="enableFullscreen('customIframe')">Fullscreen</button>
-<iframe id="customIframe" src="" style="width:100%; height:500px;"></iframe>
-</div>
-</div>
-
-<div id="feedbackPage" class="hidden">
-<h2>Send Suggestions</h2>
-<div class="custom-form">
-<textarea id="feedbackText" placeholder="Enter Feedback/Suggestions Here. (will be sent to developer)"></textarea>
-<button onclick="sendFeedback()">Send</button>
-</div>
-</div>
-</div>
+<iframe id="donkeyIframe" src="https://donkey.to" sandbox="allow-scripts allow-same-origin"></iframe>
 
 <script>
-function showPage(pageId) {
-var pages = document.querySelectorAll('.content > div');
-pages.forEach(page => page.classList.add('hidden'));
-
-var selectedPage = document.getElementById(pageId);
-if (selectedPage) {
-selectedPage.classList.remove('hidden');
-}
-}
-
-function enableFullscreen(iframeId) {
-var iframe = document.getElementById(iframeId);
-if (iframe) {
-if (iframe.requestFullscreen) {
-iframe.requestFullscreen();
-} else if (iframe.mozRequestFullScreen) {
-iframe.mozRequestFullScreen();
-} else if (iframe.webkitRequestFullscreen) {
-iframe.webkitRequestFullscreen();
-} else if (iframe.msRequestFullscreen) {
-iframe.msRequestFullscreen();
-}
-}
-}
-
-function enableControlsAndFullscreen(iframeId) {
-var iframe = document.getElementById(iframeId);
-
-if (iframe) {
-// Trigger fullscreen API
-if (iframe.requestFullscreen) {
-iframe.requestFullscreen();
-} else if (iframe.mozRequestFullScreen) {
-iframe.mozRequestFullScreen();
-} else if (iframe.webkitRequestFullscreen) {
-iframe.webkitRequestFullscreen();
-} else if (iframe.msRequestFullscreen) {
-iframe.msRequestFullscreen();
-}
-
-// Focus the iframe to capture keyboard input
-iframe.focus();
-
-// Enable mouse events within the iframe
-iframe.contentWindow.focus();
-
-// Try to request pointer lock for games that need it (like Minecraft)
-if (iframe.contentWindow.document.body.requestPointerLock) {
-iframe.contentWindow.document.body.requestPointerLock();
-}
-}
-}
-
-function showFeedbackPage() {
-showPage('feedbackPage');
-}
-
-function showUpdatesPage() {
-showPage('updatesPage');
-}
-
-function loadCustomPage() {
-var url = document.getElementById("searchInput").value;
-
-if (!url.startsWith("http://") && !url.startsWith("https://")) {
-url = "https://" + url;
-}
-
-document.getElementById("customIframe").src = url;
-showPage("customPage");
-}
-
 function blockRedirects(iframeId) {
 var iframe = document.getElementById(iframeId);
-
 var initialSrc = iframe.src;
 
+// Set up a periodic check to see if the iframe's src has changed
 setInterval(function() {
 if (iframe.src !== initialSrc) {
 alert('Redirect blocked!');
-iframe.src = initialSrc;
+iframe.src = initialSrc; // Reset the src to the original URL
 }
-}, 1000);
+}, 1000); // Check every 1 second
 }
 
-// Monitor all the iframes for redirects
-blockRedirects('page1Iframe');
-blockRedirects('page2Iframe');
-blockRedirects('page30Iframe');
-blockRedirects('page5Iframe');
-blockRedirects('page6Iframe');
-blockRedirects('page7Iframe');
-blockRedirects('page8Iframe');
-function sendFeedback() {
-var feedback = document.getElementById("feedbackText").value.trim();
-if (!feedback) {
-return;
-}
-// Replace the URL below with your actual Discord webhook URL.
-var webhookUrl = "https://discord.com/api/webhooks/1355757858657931456/gkX9GMV7evKpVAJtIiwQWf4TmeI9MhojtHBhbe-htdtbIVtqnqLN22wNI-EcJZNhmL4L";
-fetch(webhookUrl, {
-method: "POST",
-headers: {
-"Content-Type": "application/json"
-},
-body: JSON.stringify({
-content: feedback
-})
-})
-.then(response => {
-if (response.ok) {
-document.getElementById("feedbackText").value = "";
-}
-})
-.catch(error => {
-console.error("Error sending feedback:", error);
-});
-}
+// Apply the redirect blocking to our donkey.to iframe
+blockRedirects('donkeyIframe');
 </script>
+
 </body>
 </html>
